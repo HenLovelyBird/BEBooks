@@ -4,9 +4,17 @@ const path = require("path")
 const { check, validationResult, sanitizeBody } = require("express-validator")
 
 const booksJsonPath = path.join(__dirname, "books.json")
-
+const bookCommentsPath = path.join(__dirname, "../comments/comments.json")
+//POST /books/id/comments => adds a comment for book {id}
+// GET /books/id/comments => gets all the comments for book {id}
+// DELETE /books/comments/id2 => delete comment {id2}
 const getBooks = async()=>{
     const buffer = await fs.readFile(booksJsonPath);
+    return JSON.parse(buffer.toString())
+}
+
+const getBookComments = async()=>{
+    const buffer = await fs.readFile(bookCommentsPath);
     return JSON.parse(buffer.toString())
 }
 
@@ -23,6 +31,18 @@ router.get("/:asin", async (req, res)=>{
         res.send(book)
     else
         res.status(404).send("Not found")
+})
+
+router.get('/:id/comments', async (req, res)=>{
+    const books = await getBooks()
+    const bookComments = await getBookComments();
+    const book = books.find(b => b.asin === req.params.id);
+    const comments = comments.filter(x =>x.asin === req.params.id)
+    if (book && bookComments){
+        let bookWithComments = {...book, bookComments}
+        res.send(bookWithComments)
+    } else 
+        res.status(404).send("No comments for this book yet")
 })
 
 router.post("/",

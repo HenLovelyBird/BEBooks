@@ -3,14 +3,28 @@ const router = express.Router();
 
 const path = require("path")
 const commentsJsonPath = path.join(__dirname, "comments.json")
+const commentsJsonPath = path.join(__dirname, "comments.json")
 
 const fs = require("fs-extra")
 const { check, validationResult} = require("express-validator")
 const uuid = require("uuid/v4")
 
+// get/getbyid/post/put/delete
+const getBookComments = async ()=>{
+    const buffer = await fs.readFile(commentsJsonPath)
+    return JSON.parse(buffer.toString())
+}
+const getComments = async()=>{
+    const buffer = await fs.readFile(commentsJsonPath);
+    return JSON.parse(buffer.toString())
+}
 
-router.getCommentsWithId = ('/:id', async(req, res) => {
-    const comments = await getCommentsWithId()
+router.get('/',  async (req, res)=>{
+    res.send(await getComments())
+})
+
+router.get('/:id', async(req, res) => {
+    const comments = await getComments()
     const comment = comments.find(c => c.comment_id === req.params.id);
     if (comment)
         res.send(comment)
@@ -20,9 +34,7 @@ router.getCommentsWithId = ('/:id', async(req, res) => {
     return JSON.parse(buffer.toString())
 });
 
-router.postComments = ('/:id', 
-    [check("comment_id").exists().withMessage("Please Provide the Comment ID"),]
-    ,async(req, res) => {
+router.post('/', async(req, res) => {
         const errors = validationResult(req)
         if (!errors.isEmpty())
             res.status(400).send(errors)
@@ -41,7 +53,9 @@ router.postComments = ('/:id',
         res.status(201).send("Your comment has been added!")
 });
 
-router.deleteComments = ('/id2', async (req, res) => {
+router.put
+
+router.delete ('/', async (req, res) => {
     const comments = await this.getComments()
     const commentsToSave = comments.filter(c => c.id !== req.params.id2)
     if (commentsToSave.length === comments.length)
