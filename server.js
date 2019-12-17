@@ -4,23 +4,23 @@ const booksRouter = require("./src/books")
 const commentsRouter = require("./src/comments")
 server.use("/books", booksRouter)
 server.use("/comments", commentsRouter)
-// const cors = require("cors")
+const cors = require("cors")
 
 
 
-// var whitelist = ['http://localhost:7000/books', 'https://localhost:7000/books', 'http://localhost:7000/comments', https://localhost:7000/comments']
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
+var whitelist = ['http://localhost:7000/books', 'https://localhost:7000/books', 'http://localhost:7000/comments', 'https://localhost:7000/comments']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
 server.use(express.json())
-// server.use("/books", cors(corsOptions),  booksRouter)
+server.use("/books", "comments", cors(corsOptions),  booksRouter, commentsRouter)
 
 // server.get("/test", (req, res)=>{
 //     res.send("working!!!")

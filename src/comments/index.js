@@ -5,8 +5,9 @@ const path = require("path")
 const commentsJsonPath = path.join(__dirname, "comments.json")
 
 const fs = require("fs-extra")
-const { check, validationResult, sanitizeBody } = require("express-validator")
+const { check, validationResult} = require("express-validator")
 const uuid = require("uuid/v4")
+
 
 router.getCommentsWithId = ('/:id', async(req, res) => {
     const comments = await getCommentsWithId()
