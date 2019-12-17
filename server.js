@@ -6,10 +6,7 @@ const cors = require("cors")
 
 
 
-var whitelist = ['http://localhost:7000/books', 
-'https://localhost:7000/books', 
-'http://localhost:7000/comments', 
-'https://localhost:7000/comments']
+var whitelist = ['http://localhost:3000','https://localhost:3000']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
