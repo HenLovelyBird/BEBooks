@@ -2,7 +2,6 @@ const express = require("express")
 const server = express();
 const booksRouter = require("./src/books")
 const commentsRouter = require("./src/comments")
-
 const cors = require("cors")
 
 
@@ -22,8 +21,9 @@ var corsOptions = {
 }
 
 server.use(express.json())
-server.use("/books", "/comments", cors(corsOptions),  booksRouter, commentsRouter)
-
+server.use(cors(corsOptions))
+server.use("/books", booksRouter)
+server.use("/comments", commentsRouter)
 
 const port = process.env.PORT || 7000
 server.listen(port, () => {
