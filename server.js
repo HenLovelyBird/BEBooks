@@ -2,13 +2,15 @@ const express = require("express")
 const server = express();
 const booksRouter = require("./src/books")
 const commentsRouter = require("./src/comments")
-server.use("/books", booksRouter)
-server.use("/comments", commentsRouter)
+
 const cors = require("cors")
 
 
 
-var whitelist = ['http://localhost:7000/books', 'https://localhost:7000/books', 'http://localhost:7000/comments', 'https://localhost:7000/comments']
+var whitelist = ['http://localhost:7000/books', 
+'https://localhost:7000/books', 
+'http://localhost:7000/comments', 
+'https://localhost:7000/comments']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -20,11 +22,8 @@ var corsOptions = {
 }
 
 server.use(express.json())
-server.use("/books", "comments", cors(corsOptions),  booksRouter, commentsRouter)
+server.use("/books", "/comments", cors(corsOptions),  booksRouter, commentsRouter)
 
-// server.get("/test", (req, res)=>{
-//     res.send("working!!!")
-// })
 
 const port = process.env.PORT || 7000
 server.listen(port, () => {
