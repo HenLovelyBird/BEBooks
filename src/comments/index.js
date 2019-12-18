@@ -30,49 +30,53 @@ router.get('/:id', async(req, res) => {
     return JSON.parse(buffer.toString())
 });
 
-// router.post('/', 
-// [check("asin").exists().withMessage("asin required"),
-// check("user_name").exists().withMessage("user_name is required"),
-// check("text").isLength({min:2}).withMessage("Comment is required")], 
-// async(req, res) => {
-//         const errors = validationResult(req)
-//         if (!errors.isEmpty())
-//             res.status(400).send(errors)
 
-//         const comments = await getComments()
-//         const idCheck = comments.find(c => c.comment_id === req.body.id) 
-//         if (idCheck) 
-//             res.status(500).send("id should be unique")
+router.post('/', 
+[check("asin").exists().withMessage("asin required"),
+check("user_name").exists().withMessage("user_name is required"),
+check("text").isLength({min:2}).withMessage("Comment is required")], 
+async(req, res) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty())
+            res.status(400).send(errors)
 
-//         comment.push(
-//             req.body,
-//             comment_id = uuid/v4, 
-//             date = new Date())
+        const comments = await getComments()
+        // const idCheck = comments.find(c => c.comment_id === req.body.id) 
+        // if (idCheck) 
+        //     res.status(500).send("id should be unique")
 
-//         await fs.writeFile(commentsJsonPath, JSON.stringify(comments))
-//         res.status(201).send("Your comment has been added!")
-// });
+        const comment = {
+            ...req.body,
+            comment_id: uuid(), 
+            date: new Date()
+        }
+        comments.push(comment)
 
-// router.put ('/:id', async (req, res) => {
-//     const comments = await getComments()
-//     const comment = comments.find(c => c.comment_id === req.params.id);
-//     if (comment){
-//         const position = comments.indexOf(comment);
-//         const updateComment = Object.assign(comment, req.body)
-//         comments[position] = updateComment;
-//         await fs.writeFile(commentsJsonPath, JSON.stringify(books))
-//         res.status(200).send("Updated")
-//     } 
-//     else 
-//         res.status(404).send("Comment Not Found")
-// })
+        await fs.writeFile(commentsJsonPath, JSON.stringify(comments))
+        res.status(201).send("Your comment has been added!")
+});
 
 
-router.delete ('/', async (req, res) => {
+router.put ('/:id', async (req, res) => {
+    const comments = await getComments()
+    const comment = comments.find(c => c.comment_id === req.params.id);
+    if (comment){
+        const position = comments.indexOf(comment);
+        const updateComment = Object.assign(comment, req.body)
+        comments[position] = updateComment;
+        await fs.writeFile(commentsJsonPath, JSON.stringify(comments))
+        res.status(200).send("Updated")
+    } 
+    else 
+        res.status(404).send("Comment Not Found")
+})
+
+
+router.delete ('/:id', async (req, res) => {
     const comments = await this.getComments()
-    const commentsToSave = comments.filter(c => c.id !== req.params.id2)
+    const commentsToSave = comments.filter(c => c.comment_id !== req.params.id)
     if (commentsToSave.length === comments.length)
-        res.status(404).send("Comment not found" + req.params.id2)
+        res.status(404).send("Comment not found" + req.params.id)
     else {
         await fs.writeFile(commentsJsonPath, JSON.stringify(commentsToSave))
         res.send("Deleted!")

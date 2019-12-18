@@ -1,9 +1,1 @@
-[
-    {
-    "comment_id":"134", 
-    "asin": "1940026091",
-    "user_name": "Heni",
-    "text": "this book is good for using as a doorstop",
-    "date": "22.12.2019"
-    }
-]
+[{"comment_id":"134","asin":"1940026091","user_name":"Heni","text":"this book is good for using as a doorstop","date":"22.12.2019"},{"asin":"1940026091","user_name":"Heni","text":"just joking"},"7232efe5-4479-4be2-9121-f31f2f1f9b5f","2019-12-18T14:39:13.699Z",{"asin":"1940026092b","user_name":"Heni","text":"just joking asdf","comment_id":"716ccb8f-8013-4195-8ec2-e0084310d60a","date":"2019-12-18T14:42:18.211Z"},{"asin":"1940026092","user_name":"Heni","text":"just joking lol","comment_id":"34a26455-d596-45ad-92f9-30e2b3ae089f","date":"2019-12-18T14:42:45.006Z"},{"asin":"1940026092b","user_name":"Heni","text":"just joking lol","comment_id":"fd6c7cff-e3f7-4a68-88c0-654e95586f05","date":"2019-12-18T14:42:55.546Z"},{"asin":"1940026092b","user_name":"Heni","text":"just joking lol","comment_id":"56c56721-67e8-4dd1-a818-6fdcde25e9bd","date":"2019-12-18T14:43:30.860Z"}]

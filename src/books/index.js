@@ -13,10 +13,10 @@ const getBooks = async()=>{
     return JSON.parse(buffer.toString())
 }
 
-const getBookComments = async()=>{
-    const buffer = await fs.readFile(bookCommentsPath);
-    return JSON.parse(buffer.toString())
-}
+// const getBookComments = async()=>{
+//     const buffer = await fs.readFile(bookCommentsPath);
+//     return JSON.parse(buffer.toString())
+// }
 
 const router = express.Router();
 
@@ -33,17 +33,18 @@ router.get("/:asin", async (req, res)=>{
         res.status(404).send("Not found")
 })
 
-// router.get('/:id/comments', async (req, res)=>{
-//     const books = await getBooks()
-//     const bookComments = await getBookComments();
-//     const book = books.find(b => b.asin === req.params.id);
-//     const comments = comments.filter(x =>x.asin === req.params.id)
-//     if (book && bookComments){
-//         let bookWithComments = {...book, bookComments}
-//         res.send(bookWithComments)
-//     } else 
-//         res.status(404).send("No comments for this book yet")
-// })
+//not working:
+router.get('/:id/comments', async (req, res)=>{
+    const books = await getBooks()
+    const bookComments = await getBookComments();
+    const book = books.find(b => b.asin === req.params.id);
+    const comments = comments.filter(x =>x.asin === req.params.id)
+    if (book && bookComments){
+        let bookWithComments = {...book, bookComments}
+        res.send(bookWithComments)
+    } else 
+        res.status(404).send("No comments for this book yet")
+})
 
 router.post("/",
     [check("asin").exists().withMessage("You should specify the asin"),
